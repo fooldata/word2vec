@@ -101,7 +101,7 @@ public class WordVector {
         if (this.getElementArray().length != other.getElementArray().length) {
             return Float.MAX_VALUE;
         }
-        float result = Float.MAX_VALUE;
+        float result = 0F;
         for (int i = 0; i < other.getElementArray().length; i++) {
             result += Math.pow(this.getElementArray()[i] - other.getElementArray()[i], 2);
         }

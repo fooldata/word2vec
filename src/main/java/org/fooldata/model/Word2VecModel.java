@@ -3,6 +3,7 @@ package org.fooldata.model;
 import org.fooldata.kdtree.KdNode;
 import org.fooldata.kdtree.KdTree;
 import org.fooldata.kdtree.WordVector;
+import org.fooldata.util.VectorIoUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.fooldata.algorithm.MaxHeap;
@@ -142,7 +143,7 @@ public class Word2VecModel {
      * @throws IOException 加载出错
      */
     private void loadVectorMap(String modelFilePath) throws IOException {
-        VectorsReader reader = new VectorsReader(modelFilePath);
+        VectorIoUtil reader = new VectorIoUtil(modelFilePath);
         reader.readVectorFile();
         this.storage = new TreeMap<>();
         for (int i = 0; i < reader.getVocab().length; i++) {
@@ -217,4 +218,17 @@ public class Word2VecModel {
         }
         return wordVector.divideToSelf(totalSize);
     }
+
+    public Map<String, Float> nearest2(String key) {
+        WordVector wordVector = storage.get(key);
+        if (wordVector == null) {
+            return Collections.emptyMap();
+        }
+        Map<String, Float> result = new LinkedHashMap<>(20);
+        MaxHeap<Map.Entry<String, Float>> maxHeap = new MaxHeap<>(20, Comparator.comparing(Map.Entry::getValue));
+        storage.forEach((a, b) -> maxHeap.add(new AbstractMap.SimpleEntry<>(a, b.cosineForUnitVector(wordVector))));
+        maxHeap.toList().forEach(a -> result.put(a.getKey(), a.getValue()));
+        return result;
+    }
+
 }

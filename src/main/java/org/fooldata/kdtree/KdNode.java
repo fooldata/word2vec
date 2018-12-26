@@ -49,13 +49,16 @@ public class KdNode {
     }
 
     static int insert(WordVector wordVector, String word, KdNode parentNode, int dim, int count) {
+        if (word.equals("机器学习算法")) {
+            System.out.println(123);
+        }
         KdNode nextNode;
         int nextDim = (dim + 1) % count;
         if (wordVector.equals(parentNode.getWordVector())) {
             parentNode.setWord(word);
             return 0;
         }
-        if (wordVector.getElementArray()[dim] > parentNode.getWordVector().getElementArray()[dim]) {
+        if (wordVector.getElementArray()[dim] >= parentNode.getWordVector().getElementArray()[dim]) {
             nextNode = parentNode.getRightNode();
             if (nextNode == null) {
                 parentNode.setRightNode(KdNode.create(word, wordVector, parentNode, dim));
@@ -75,25 +78,24 @@ public class KdNode {
     /**
      * @param minHeap          结果保存对象,最小堆
      * @param targetWordVector 待查找向量
-     * @param topN             前K个词
      */
-    static void getNearNodes(MaxHeap<Map.Entry<KdNode, Float>> minHeap, KdNode rootNode, WordVector targetWordVector, int topN) {
+    static void getNearNodes(MaxHeap<Map.Entry<KdNode, Float>> minHeap, KdNode rootNode, WordVector targetWordVector) {
+        minHeap.add(new AbstractMap.SimpleEntry<>(rootNode, rootNode.getWordVector().squaredDistance(targetWordVector)));
         KdNode leafNode = getLeafNode(rootNode, targetWordVector);
-        while (leafNode.getParentNode() != null && !leafNode.getWordVector().equals(rootNode.getWordVector())) {
-            // 得到半径
-            float r = Float.MAX_VALUE;
-            if (minHeap.size() >= topN) {
-                r = minHeap.getTop().getValue();
+        while (leafNode.getParentNode() != null && leafNode != rootNode) {
+            // 计算当前节点与target的距离
+            if (leafNode.getWord().equals("机器学习算法")) {
+                System.out.println(123);
             }
-            // 计算当前节点父节点与target的距离
-            float distance = leafNode.getParentNode().getWordVector().squaredDistance(targetWordVector);
-            if (distance <= r) {
-                minHeap.add(new AbstractMap.SimpleEntry<>(leafNode.getParentNode(), distance));
-            }
+            float distance = leafNode.getWordVector().squaredDistance(targetWordVector);
+            minHeap.add(new AbstractMap.SimpleEntry<>(leafNode, distance));
             KdNode brotherNode = getBrother(leafNode);
+            if (brotherNode != null && brotherNode.getWord().equals("机器学习算法")) {
+                System.out.println(123123);
+            }
             // 检查兄弟节点的超平面空间是否与当前目标点为球心，目标点与“当前最近点”间的距离为半径的超球体相交
-            if (brotherNode != null && distance > Math.abs(targetWordVector.getElementArray()[leafNode.getParentNode().getDim()] - leafNode.getParentNode().getWordVector().getElementArray()[leafNode.getParentNode().getDim()])) {
-                getNearNodes(minHeap, brotherNode, targetWordVector, topN);
+            if (brotherNode != null && minHeap.getTop().getValue() >= Math.abs(targetWordVector.getElementArray()[leafNode.getParentNode().getDim()] - leafNode.getParentNode().getWordVector().getElementArray()[leafNode.getParentNode().getDim()])) {
+                getNearNodes(minHeap, brotherNode, targetWordVector);
             }
             leafNode = leafNode.getParentNode();
         }
@@ -138,7 +140,10 @@ public class KdNode {
     static KdNode getLeafNode(KdNode rootNode, WordVector targetWordVector) {
         KdNode kdNode = rootNode;
         while (true) {
-            if (targetWordVector.getElementArray()[kdNode.getDim()] > kdNode.getWordVector().getElementArray()[kdNode.getDim()]) {
+            if (kdNode.getWord().equals("机器学习")) {
+                System.out.println("123123123123");
+            }
+            if (targetWordVector.getElementArray()[kdNode.getDim()] >= kdNode.getWordVector().getElementArray()[kdNode.getDim()]) {
                 if (kdNode.getRightNode() == null) {
                     return kdNode;
                 }

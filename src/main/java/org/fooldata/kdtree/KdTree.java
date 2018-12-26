@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class KdTree {
 
-    Logger logger = LoggerFactory.getLogger(KdTree.class);
+    private Logger logger = LoggerFactory.getLogger(KdTree.class);
 
     /**
      * 根节点
@@ -63,7 +63,7 @@ public class KdTree {
         if (this.rootNode == null) {
             logger.error("KD树中无节点，无法查询！");
         }
-        KdNode.getNearNodes(result, this.rootNode, wordVector, topN);
+        KdNode.getNearNodes(result, this.rootNode, wordVector);
         return result;
     }
 

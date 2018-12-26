@@ -14,9 +14,9 @@ import java.nio.charset.Charset;
  * @author 陈明超
  * @date 2018/11/23
  */
-public class IoUtils {
+public class VectorIoUtil {
 
-    private Logger logger = LoggerFactory.getLogger(VectorsReader.class);
+    private Logger logger = LoggerFactory.getLogger(VectorIoUtil.class);
 
     private final static Charset ENCODING = Charset.forName("UTF-8");
     private int wordSize, arraySize;
@@ -24,7 +24,7 @@ public class IoUtils {
     private float[][] matrix;
     private final String file;
 
-    IoUtils(String file) {
+    public VectorIoUtil(String file) {
         this.file = file;
     }
 
@@ -40,10 +40,6 @@ public class IoUtils {
                 vocab = new String[wordSize];
                 matrix = new float[wordSize][];
             } else {
-                if (rowNum > 10000) {
-                    wordSize--;
-                    return true;
-                }
                 String[] params = line.split("\\s+");
                 if (params.length != arraySize + 1) {
                     logger.info("词向量有一行格式不规范（可能是单词含有空格）：" + line);
@@ -107,11 +103,11 @@ public class IoUtils {
         return wordSize;
     }
 
-    String[] getVocab() {
+    public String[] getVocab() {
         return vocab;
     }
 
-    float[][] getMatrix() {
+    public float[][] getMatrix() {
         return matrix;
     }
 
