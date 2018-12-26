@@ -1,4 +1,4 @@
-package ren.cesar.algorithm;
+package org.fooldata.algorithm;
 
 import java.util.*;
 

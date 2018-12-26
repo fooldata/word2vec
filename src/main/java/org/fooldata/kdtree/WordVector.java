@@ -1,4 +1,4 @@
-package ren.cesar.kdtree;
+package org.fooldata.kdtree;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package ren.cesar;
+package org.fooldata;
 
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

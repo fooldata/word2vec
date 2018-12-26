@@ -1,9 +1,9 @@
-package ren.cesar.kdtree;
+package org.fooldata.kdtree;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ren.cesar.algorithm.MaxHeap;
+import org.fooldata.algorithm.MaxHeap;
 
 import java.util.Map;
 

@@ -1,6 +1,6 @@
-package ren.cesar.kdtree;
+package org.fooldata.kdtree;
 
-import ren.cesar.algorithm.MaxHeap;
+import org.fooldata.algorithm.MaxHeap;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;

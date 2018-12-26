@@ -1,11 +1,11 @@
-package ren.cesar.model;
+package org.fooldata.model;
 
+import org.fooldata.kdtree.KdNode;
+import org.fooldata.kdtree.KdTree;
+import org.fooldata.kdtree.WordVector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ren.cesar.algorithm.MaxHeap;
-import ren.cesar.kdtree.KdNode;
-import ren.cesar.kdtree.KdTree;
-import ren.cesar.kdtree.WordVector;
+import org.fooldata.algorithm.MaxHeap;
 
 import java.io.IOException;
 import java.util.*;
